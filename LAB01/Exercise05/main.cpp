@@ -45,11 +45,9 @@ public:
 };
 
 int main() {
-
     
     vector<int> nums;
     for (int i = 1; i <= 45000; i++) nums.push_back(i*3 + 1);
-
 
     Solution solution;
 
@@ -57,11 +55,11 @@ int main() {
 
     solution.k_th_largest_element(nums, nums.size() / 2);
     
-
     auto stop = high_resolution_clock::now();    // stop timing
     auto duration = duration_cast<microseconds>(stop - start);
 
     cout << "Execution time: " << duration.count() << " microseconds" << endl;
+    return 0;
 }
 
 /* 
