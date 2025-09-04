@@ -2,6 +2,17 @@
 #include <vector>
 using namespace std;
 
+void print(vector<pair<string, vector<pair<int, int>>>> pairs) {
+    for (pair<string, vector<pair<int, int>>> p : pairs) {
+        cout << "Word : \"" << p.first << "\"" << endl;
+        cout << "Coordinates : ";
+        for (pair<int, int> c : p.second){
+            cout << "(" << c.first << "," << c.second << ") ";
+        } 
+        cout << endl;
+    }
+}
+
 bool contains(vector<string> words, string word) {
     for (string w : words) {
         if (w == word) return true;
@@ -24,8 +35,8 @@ findWords(vector<vector<char>> grid, vector<string> words) {
             coords.push_back({i, j});
             if (contains(words, word)) {
                 result.push_back({word, coords});
-            } else {
-                
+                word = "";
+                coords.clear();
             }
         }
     }
@@ -33,6 +44,7 @@ findWords(vector<vector<char>> grid, vector<string> words) {
     for (int i = 0; i < columns; i++) {
 
     }
+    return result;
 }
 
 int main() {
@@ -49,8 +61,11 @@ int main() {
     vector<string> words = {"EARTH", "JUPITER", "MARS", "MERCURY", 
                             "NEPTUNE", "SATURN", "URANUS", "VENUS"};
 
+    vector<pair<string, vector<pair<int, int>>>> result;
 
+    result = findWords(grid, words);
 
+    print(result);
     
+    return 0;
 }
-
