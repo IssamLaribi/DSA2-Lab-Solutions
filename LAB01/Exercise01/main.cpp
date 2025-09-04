@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 void print(vector<pair<string, vector<pair<int, int>>>> pairs) {
@@ -9,7 +10,7 @@ void print(vector<pair<string, vector<pair<int, int>>>> pairs) {
         for (pair<int, int> c : p.second){
             cout << "(" << c.first << "," << c.second << ") ";
         } 
-        cout << endl;
+        cout << endl << endl;
     }
 }
 
@@ -22,29 +23,52 @@ bool contains(vector<string> words, string word) {
 }
 
 vector<pair<string, vector<pair<int, int>>>> 
-findWords(vector<vector<char>> grid, vector<string> words) {
+findWords(vector<vector<char>> &grid, vector<string> words) {
+
     vector<pair<string, vector<pair<int, int>>>> result;
 
     int rows = grid.size();
     int columns = (grid[0]).size();
-    for (int i = 0; i < rows; i++) {
+
+    // Scanning the rows from left to right
+    for (int col = 0; col < columns; col++) { // Looping over columns
+
+        for (int row = 0; row < rows; row++) { // Looping over rows
         vector<pair<int, int>> coords;
         string word = "";
-        for (int j = 0; j < columns; j++) {
-            word += grid[i][j];
-            coords.push_back({i, j});
-            if (contains(words, word)) {
-                result.push_back({word, coords});
-                word = "";
-                coords.clear();
+        
+            for (int start = col; start < columns; start++) { // Scanning the row along columns
+                word += grid[row][start];
+                coords.push_back({row, start});
+                if (contains(words, word)) {
+                    result.push_back({word, coords});
+                    break;
+                }
+            }
+        }
+    } 
+
+    // Scanning the rows from right to left
+    for (int col = columns - 1; col >= 0; col--) { // Looping over columns
+
+        for (int row = 0; row < rows; row++) { // Looping over rows
+        vector<pair<int, int>> coords;
+        string word = "";
+        
+            for (int start = col; start >= 0; start--) { // Scanning the row along columns
+                word += grid[row][start];
+                coords.push_back({row, start});
+                if (contains(words, word)) {
+                    result.push_back({word, coords});
+                    break;
+                }
             }
         }
     }
 
-    for (int i = 0; i < columns; i++) {
 
-    }
     return result;
+
 }
 
 int main() {
@@ -66,6 +90,6 @@ int main() {
     result = findWords(grid, words);
 
     print(result);
-    
+
     return 0;
 }
